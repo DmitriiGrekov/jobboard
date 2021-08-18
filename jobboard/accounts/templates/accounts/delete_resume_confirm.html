@@ -1,0 +1,28 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+Удаление записи
+{% endblock title %}
+
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Удаление резюме</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock area %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+{% endblock content %}

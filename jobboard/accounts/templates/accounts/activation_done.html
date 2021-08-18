@@ -1,0 +1,27 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+Успешная активация
+{% endblock title %}
+
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Пользователь успешно активирован</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock area %}
+
+{% block content %}
+<div class="alert alert-success" role="alert">
+Пользователь успешно активирован, вы можете <a href="{% url 'accounts:login' %}">войти</a>
+</div>
+
+{% endblock content %}

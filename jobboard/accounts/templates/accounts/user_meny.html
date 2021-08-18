@@ -1,0 +1,23 @@
+<div class="col-lg-4">
+                    <div class="job_sumary">
+                        <div class="summery_header">
+                            <h3>Меню пользователя</h3>
+                        </div>
+                        <div class="job_content">
+                            <ul>
+                                <li><a href="{% url 'accounts:show_favourits'%}">Избранные вакансии</a></li>
+                                {% if user.type_user == 'applicant' %}
+                                <li><a href="{% url 'accounts:show_resume'%}">Ваши отклики</a></li>
+                                {% else %}
+                                <li><a href="{% url 'accounts:show_jobs'%}">Ваши вакансии</a></li>
+                                <li><a href="{% url 'accounts:all_responses'%}">{% if responses_notification %}
+                                    <span style='color:#fff' class='bg-danger p-1'>{{ responses_notification }}</span> 
+                                    {% endif %} Отклики на ваши вакансии</a></li>
+                                {% endif %}
+
+                                <li><a href="{% url 'accounts:change_password' %}">Сменить пароль</a></li>
+                                <li><a href="{% url 'accounts:update' user.pk %}">Обновить данные</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>

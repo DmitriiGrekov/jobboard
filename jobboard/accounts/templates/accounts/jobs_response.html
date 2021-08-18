@@ -1,0 +1,62 @@
+{% extends 'layout/basic.html' %}
+
+
+{% block title %}
+Отклики на ваши вакансии
+{% endblock title %}
+
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Отклики на ваши вакансии</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock area %}
+
+{% block content %}
+<div class="container">
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+{{ message }}
+</div>
+{% endfor %}
+{% if responses %}
+{% for resume in responses %}
+
+<div class="col-lg-7 col-md-7">
+                                <div class="single_jobs white-bg d-flex justify-content-between">
+                                    <div class="jobs_left d-flex align-items-center">
+                                        <div class="thumb">
+                                            <img src="{{ resume.vacancy.image.url }}" alt="">
+                                        </div>
+                                        <div class="jobs_conetent">
+                                            <a href="{% url 'accounts:detail_resume' resume.pk %}"><h4>Отклик на вакансию: {{ resume.vacancy.title }}</h4></a>
+                                        </div>
+                                    </div>
+                                    <div class="jobs_right">
+                                        <div class="apply_now">
+                                            <a href="{% url 'accounts:delete_resume' resume.pk %}" class="boxed-btn3">Delete resume</a>
+                                        </div>
+                                        <div class="date">
+                                            <p>Date line: {{ vacancy.date_publish|date:"j M Y" }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+{% endfor %}
+{% else %}
+Никто еще не откликнулся на ваши вакансии
+{% endif %}
+
+                            {% include 'accounts/user_meny.html' %}
+ </div>
+
+{% endblock content %}

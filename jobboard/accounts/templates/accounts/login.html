@@ -1,0 +1,41 @@
+{% extends 'layout/basic.html' %}
+{% load jobs_tags%}
+
+{% block title %}Вход на сайт{% endblock title %}
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Вход на сайт</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock area %}
+
+
+{% block content %}
+<div class="container-fluid">
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+{{ message }}
+</div>
+{% endfor %}
+{% endif %}
+<form method='post' class='text-center pt-3'>
+                            {% csrf_token %}
+                               {{ form.as_p }} 
+                        <div class="reset_btn mb-3 mt-3 text-center">
+                            <button  class="boxed-btn3" type="submit">Войти</button>
+                        </div>
+                            </form>
+</div>
+
+
+{% endblock content %}

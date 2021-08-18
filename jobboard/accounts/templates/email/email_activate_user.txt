@@ -1,0 +1,6 @@
+Добрый день, {{ user.username }}
+Вы только что зарегестрировались на сайте {{ host }}
+Для завершения регистрации, пройдите по ссылке:
+
+{{ host }}{% url 'accounts:register_activate' token=sign%}
+

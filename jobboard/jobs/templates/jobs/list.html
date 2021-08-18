@@ -1,0 +1,176 @@
+{% extends 'layout/basic.html' %}
+
+{% block title%}
+Job Board
+{% endblock title%}
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>4536+ Jobs Available</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock area %}
+
+{% block content %}
+<div class="job_listing_area plus_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="job_filter white-bg">
+                        <div class="form_inner white-bg">
+                            <h3>Filter</h3>
+                            <form method='get' action="{% url 'jobs:filter' %}">
+                            {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="single_field">
+                                            <input name='keyword' type="text" placeholder="Search keyword">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="single_field">
+                                            <select class="wide" name='category'>
+                                                <option data-display="Category" >Category</option>
+                                                {{ view.get_category }}
+                                                {% for cat in category %}
+                                                    <option value="{{ cat.pk }}">{{ cat.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="single_field">
+                                            <select class="wide" name='experience'>
+                                                <option data-display="Experience" >Experience</option>
+                                                {% for value, text in experience_choices %}
+                                                <option value="{{ value }}">{{ text }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="single_field">
+                                            <select class="wide" name='employment'>
+                                                <option data-display="Job type" >Job type</option>
+                                                {% for value, text in employment_choices %}
+                                                
+                                                    <option value="{{ value }}">{{ text }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="single_field">
+                                            <select name='gender' class="wide">
+                                                <option value='None'>Gender</option>
+                                                {{ view.get_gender_choices }}
+                                                {% for value, text in gender_choices %}
+                                                
+                                                    <option value="{{ value }}">{{ text }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="reset_btn">
+                            <button  class="boxed-btn3 w-100" type="submit">Search</button>
+                        </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="recent_joblist_wrap">
+                        <div class="recent_joblist white-bg ">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <h4>Job Listing</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="job_lists m-0">
+                        <div class="row">
+                        {% for message in messages %}
+                       <div class="alert alert-success" role="alert">
+                       {{ message }}
+                        </div> 
+                        {% endfor %}
+
+                           {% for vacancy in vacancies %}
+                            <div class="col-lg-12 col-md-12">
+                                <div class="single_jobs white-bg d-flex justify-content-between">
+                                    <div class="jobs_left d-flex align-items-center">
+                                        <div class="thumb">
+                                            <img src="{{ vacancy.image.url }}" alt="">
+                                        </div>
+                                        <div class="jobs_conetent">
+                                            <a href="{% url 'jobs:detail' vacancy.pk %}"><h4>{{ vacancy.title }}</h4></a>
+                                            <div class="links_locat d-flex align-items-center">
+                                                <div class="location">
+                                                    <p> <i class="fa fa-map-marker"></i>{{ vacancy.position }}</p>
+                                                </div>
+                                                <div class="location">
+                                                    <p> <i class="fa fa-clock-o"></i>{{ vacancy.get_employment_display }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="jobs_right">
+                                        <div class="apply_now">
+                                            {% if vacancy in request.user.favourits.all %}
+                                            <a class="heart_mark" href="{% url 'accounts:delete_favourits' vacancy.pk %}"> <i class="fa fa-heart"></i> </a>
+                                            {% else %}
+                                            <a class="heart_mark" href="{% url 'accounts:add_favourits' vacancy.pk %}"> <i class="ti-heart"></i> </a>
+                                            {% endif %}
+                                            <a href="{% url 'jobs:detail' vacancy.pk %}" class="boxed-btn3">Apply Now</a>
+                                        </div>
+                                        <div class="date">
+                                            <p>Date line: {{ vacancy.date_publish|date:"j M Y" }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                           {% endfor %} 
+
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="pagination_wrap">
+                                    <ul>
+                                    {% if vacancies.has_previous %}
+                                        <li><a href="{% if url %}{{ url }}&{% else %}?{% endif %}page={{ vacancies.previous_page_number }}"> <i class="ti-angle-left"></i> </a></li>
+                                    {% endif %}
+                                    {% for n in vacancies.paginator.page_range %} 
+                                        {% if n == vacancies.number %}
+                     
+                                            <li><a href="{% if url %}{{ url }}&{% else %}?{% endif %}page={{ n }}" class='active'><span>{{ n }}</span></a></li>
+
+                                        {% else %}
+                                            <li><a href="{% if url  %}{{ url }}&{% else %}?{% endif %}page={{ n }}"><span>{{ n }}</span></a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if vacancies.has_next %}
+                                        <li><a href="{% if url %}{{ url }}&{% else%}?{% endif %}page={{ vacancies.next_page_number }}"> <i class="ti-angle-right"></i> </a></li>
+                                    {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

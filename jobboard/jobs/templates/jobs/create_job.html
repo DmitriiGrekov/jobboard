@@ -1,0 +1,46 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+Создание новой вакансии
+{% endblock title %}
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Создание новой вакансии</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock area %}
+
+{% block content %}
+<div class="job_details_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="descript_wrap white-bg">
+                        <div class="single_wrap">
+                        {% if user.type_user == 'employment' %}
+                        <h4>Создание новой вакансии</h4>
+                            <form method='POST' enctype='multipart/form-data'>
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value='Создать' class='btn btn-success'>
+                            </form>
+                        {% else %}
+                        <h4>Вы не можете создавать объявления</h4>
+                        {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

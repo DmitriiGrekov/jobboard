@@ -1,0 +1,99 @@
+{% extends 'layout/basic.html' %}
+{% load jobs_tags %}
+
+{% block title %}Отклик на вакансию: {{ resume.vacancy.title }}{% endblock title %}
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Отклик на вакансию: {{ resume.vacancy.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock area %}
+
+{% block content %}
+<div class="job_details_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="job_details_header">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="thumb">
+                                    <img src="{{ resume.vacancy.image.url }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="descript_wrap white-bg">
+                        <div class="single_wrap">
+                            <h4>Resume description</h4>
+                            <p>Vacancy: <a href="{% url 'jobs:detail' resume.vacancy.pk %}">{{ resume.vacancy.title}}</a></p>
+                            <p>Full name: {{ resume.full_name }}</p>
+                            <p>Email: {{ resume.email}}</p>
+                            <p>Porfolio link: {{ resume.portfolio_link}}</p>
+                            <p>Portfolio file: <a href="{{ resume.portfolio_file.url }}">{{ resume.portfolio_file.name}}</a></p>
+                            <p>Coverletter: {{ resume.coverletter}}</p>
+                        </div>
+                    </div>
+                    <div class="apply_job_form white-bg">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                <ul>
+                                   {% for comment in comments %}
+                                   <li border=1>
+                                    <h4>{{ comment.name }}</h4> 
+                                    <p>{{ comment.comment }}</p>
+                                   </li>
+
+                                   {% endfor %}  
+                                </ul>
+                                </div>
+                        </div>
+                        </div>
+                    <div class="apply_job_form white-bg">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success" role="alert">
+                            {{ message }}
+                            </div> 
+                        {% endfor %} 
+                    {% endif %}
+                    <h4>Apply for the job</h4>
+
+                        <form method='POST'>
+                        {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input_field">
+                                        {{ form.name|placeholder:"Имя"}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="input_field">
+                                        {{ form.comment|placeholder:"Текст комментария" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="submit_btn">
+                                        <button class="boxed-btn3 w-100" type="submit">Ответить</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form> 
+                        </div>
+                </div>
+                {% include 'accounts/user_meny.html' %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

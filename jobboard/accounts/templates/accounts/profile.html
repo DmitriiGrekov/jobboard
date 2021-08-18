@@ -1,0 +1,72 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+Профиль пользователя: {{ user.username }}
+{% endblock title %}
+
+{% block area %}
+<div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Профиль пользователя: {{ user.username }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div
+
+{% endblock area %}
+
+{% block content %}
+<div class="job_details_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="job_details_header">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="thumb">
+                                    <img src="{{ user.avatar.url }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="descript_wrap white-bg">
+                        <div class="single_wrap">
+                        {% for message in messages %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                        </div>
+                        {% else %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                            <h4>Данные пользователя</h4>
+                            <div class="job_content">
+                                <ul>
+                                    <li>Имя: <span>{{ user.first_name }}</span></li> 
+                                    <li>Фамилия: <span>{{ user.last_name}}</span></li> 
+                                    <li>Логин: <span>{{ user.username}}</span></li> 
+                                    <li>Почта: <span>{{ user.email }}</span></li> 
+                                    <li>Телефон: <span>{{ user.phone}}</span></li> 
+                                    <li>Тип пользователя: <span>{{ user.get_type_user_display}}</span></li> 
+                                    <li>Дата регистрации: <span>{{ user.date_joined}}</span></li> 
+                                    <li>Дата последнего входа: <span>{{ user.last_login }}</span></li> 
+                                
+                                </ul> 
+                            </div>
+                            <p>{{ vacancy.description|linebreaksbr  }}</p>
+                        </div>
+                    </div>
+                </div>
+               {% include "accounts/user_meny.html" %} 
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
